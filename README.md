@@ -9,4 +9,4 @@ https://sydneywalcoff.github.io/code-quiz
 ## Screenshot
 
 ## Contribution
-Made with <(2+1) by Sydney Walcoff
+Made with <2+1 by Sydney Walcoff

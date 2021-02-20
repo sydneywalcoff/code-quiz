@@ -1,0 +1,67 @@
+:root {
+    --primary-color: purple;
+    --secondary-color: limegreen;
+}
+
+* {
+    margin: 0 0;
+    outline: none;
+}
+
+/* header */
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 5%;
+    height: 75px;
+}
+
+header div {
+    justify-content: space-between;
+    align-self: center;
+}
+
+a.high-score {
+    align-self: center;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+
+main {
+    margin: 5% 20%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+h1 {
+    margin: 2% auto;
+}
+
+p {
+    margin: 0 auto;
+}
+
+/* main */
+
+.question {
+    display: flex;
+    flex-direction: column;
+}
+
+.question p {
+    text-align: center;
+}
+
+.answer-choices {
+    margin: 5% auto;
+}
+
+.answer-choices button {
+    width: 250px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
