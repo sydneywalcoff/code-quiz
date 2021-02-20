@@ -1,11 +1,12 @@
 :root {
-    --primary-color: purple;
-    --secondary-color: limegreen;
+    --primary-color: #583DA4;
+    --secondary-color: #DEC9F8;
 }
 
 * {
     margin: 0 0;
     outline: none;
+    font-family: sans-serif;
 }
 
 /* header */
@@ -27,6 +28,10 @@ a.high-score {
     color: var(--primary-color);
 }
 
+p.timer {
+    align-self: center;
+}
+
 
 main {
     margin: 5% 20%;
@@ -39,9 +44,6 @@ h1 {
     margin: 2% auto;
 }
 
-p {
-    margin: 0 auto;
-}
 
 /* main */
 
@@ -52,6 +54,7 @@ p {
 
 .question p {
     text-align: center;
+    margin: 0 auto;
 }
 
 .answer-choices {
