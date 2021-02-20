@@ -13,6 +13,15 @@ p {
     text-align: center;
 }
 
+button {
+    justify-self: center;
+    width: 250px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
 .hide {
     display: none;
 }
@@ -67,12 +76,8 @@ h1 {
 
 .answer-choices {
     margin: 5% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.answer-choices button {
-    width: 250px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-}
