@@ -4,27 +4,25 @@ var timeStart = 75;
 var questions = [
     {
         question: "What is my hebrew name?",
-        answers: ["Batsheva", "Chana", "Shiriel", "Lior"]
+        answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"]
     },
     {
         question: "What is my dog's name",
-        answers: ["Liba", "Sweetpea", "Lurch", "Sniffers"]
+        answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"]
     },
     {
         question: "What is my brother's name?",
-        answers: ["Cole", "Eli", "Jackson", "Sam"]
+        answerChoices: ["Cole", "Eli", "Jackson", "Sam"]
     },
     {
         question: "What street did I grow up on?",
-        answers: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"]
+        answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"]
     }
 ];
 var answer;
 
 var startGame = function() {
     timer();
-    // 
-    question.textContent = "placeholder question";
 
     // hides the `p` element and the start button 
     var hiddenP = document.querySelector(".questionP");
@@ -60,6 +58,11 @@ var startGame = function() {
     answerChoicesDiv.appendChild(optionThree);
     answerChoicesDiv.appendChild(optionFour);
    
+    // for loop to add questions to h1 el
+    for(let i = 0; i < questions.length; i++) {
+        question.textContent = questions[i].question;
+        console.log(question.textContent);
+    }
 
 };
 
