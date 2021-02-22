@@ -1,10 +1,29 @@
 var startButton = document.querySelector(".btn");
 var question = document.querySelector("h1");
 var timeStart = 75;
-var questions = [];
+var questions = [
+    {
+        question: "What is my hebrew name?",
+        answers: ["Batsheva", "Chana", "Shiriel", "Lior"]
+    },
+    {
+        question: "What is my dog's name",
+        answers: ["Liba", "Sweetpea", "Lurch", "Sniffers"]
+    },
+    {
+        question: "What is my brother's name?",
+        answers: ["Cole", "Eli", "Jackson", "Sam"]
+    },
+    {
+        question: "What street did I grow up on?",
+        answers: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"]
+    }
+];
+var answer;
 
 var startGame = function() {
     timer();
+    // 
     question.textContent = "placeholder question";
 
     // hides the `p` element and the start button 
@@ -14,7 +33,6 @@ var startGame = function() {
 
     // defines answer-choices div
     var answerChoicesDiv = document.querySelector(".answer-choices");
-
 
     // button one
     var optionOne = document.createElement("button");
@@ -42,10 +60,13 @@ var startGame = function() {
     answerChoicesDiv.appendChild(optionThree);
     answerChoicesDiv.appendChild(optionFour);
    
+
 };
 
 var timer = function() {
     console.log('time');
+
+    // if !answer subtract 10 seconds from timer
 };
 
 
