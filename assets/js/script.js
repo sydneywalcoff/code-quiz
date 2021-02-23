@@ -4,26 +4,30 @@ var timeStart = 75;
 var questions = [
     {
         question: "What is my hebrew name?",
-        answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"]
+        answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"],
+        correctAnswer: "Shiriel"
     },
     {
         question: "What is my dog's name?",
-        answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"]
+        answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"],
+        correctAnswer: "Liba"
     },
     {
         question: "What is my brother's name?",
-        answerChoices: ["Cole", "Eli", "Jackson", "Sam"]
+        answerChoices: ["Cole", "Eli", "Jackson", "Sam"],
+        correctAnswer: "Sam"
     },
     {
         question: "What street did I grow up on?",
-        answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"]
+        answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"],
+        correctAnswer: "Glenmore Blvd"
     }
 ];
 var answer;
 var idCounter=0;
 var answerChoicesDiv = document.querySelector(".answer-choices");
 
-var startGame = function() {
+var playGame = function() {
     // start timer
     timer();
 
@@ -41,7 +45,6 @@ var firstQuestion = function() {
     for(let i = 0; i< questions[0].answerChoices.length; i++) {
         createAnswerButtons(firstQItem.answerChoices[i]);
     }
-
     // secondQuestion();
 };
 
@@ -86,7 +89,6 @@ let createAnswerButtons = function(buttonTextIndex) {
     button.setAttribute("id", idCounter);
     answerChoicesDiv.appendChild(button);
     idCounter++;
-    console.log(idCounter);
 };
 
 var hideEl = function() {
@@ -102,4 +104,4 @@ var timer = function() {
 };
 
 
-startButton.addEventListener("click", startGame);
+startButton.addEventListener("click", playGame);
