@@ -24,47 +24,13 @@ var idCounter=0;
 var answerChoicesDiv = document.querySelector(".answer-choices");
 
 var startGame = function() {
+    // start timer
     timer();
 
+    // hide p element and start button
     hideEl();
 
     firstQuestion();
-
-    var createDynamicEl = function() {
-
-
-        // // button one
-        // var optionOne = document.createElement("button");
-        // optionOne.textContent = "Option One";
-        // optionOne.setAttribute("class", "btn");
-        // optionOne.setAttribute("id", idCounter);
-
-        // // button two
-        // var optionTwo = document.createElement("button");
-        // optionTwo.textContent = "Option Two";
-        // optionTwo.setAttribute("class", "btn");
-
-        // // button three
-        // var optionThree = document.createElement("button");
-        // optionThree.textContent = "Option Three";
-        // optionThree.setAttribute("class", "btn");
-
-        // // button four
-        // var optionFour = document.createElement("button");
-        // optionFour.textContent = "Option Four";
-        // optionFour.setAttribute("class", "btn");
-
-        // // adding buttons to answer-choices div
-        // answerChoicesDiv.appendChild(optionOne);
-        // answerChoicesDiv.appendChild(optionTwo);
-        // answerChoicesDiv.appendChild(optionThree);
-        // answerChoicesDiv.appendChild(optionFour);
-        
-    
-
-        
-    };
-   createDynamicEl();
 
     
 };
@@ -76,6 +42,7 @@ var firstQuestion = function() {
         createAnswerButtons(firstQItem.answerChoices[i]);
     }
 
+    // secondQuestion();
 };
 
 var secondQuestion = function() {
@@ -84,6 +51,8 @@ var secondQuestion = function() {
     for(let i = 0; i< questions[1].answerChoices.length; i++) {
         createAnswerButtons(secondQItem.answerChoices[i]);
     }
+
+    // thirdQuestion();
 };
 
 var thirdQuestion = function() {
@@ -92,6 +61,8 @@ var thirdQuestion = function() {
     for(let i = 0; i< questions[2].answerChoices.length; i++) {
         createAnswerButtons(thirdQItem.answerChoices[i]);
     }
+
+    // fourthQuestion();
 };
 
 var fourthQuestion = function() {
@@ -100,6 +71,12 @@ var fourthQuestion = function() {
     for(let i = 0; i< questions[3].answerChoices.length; i++) {
         createAnswerButtons(fourthQItem.answerChoices[i]);
     }
+
+    // highScores();
+};
+
+var highScores = function() {
+
 };
 
 let createAnswerButtons = function(buttonTextIndex) {
