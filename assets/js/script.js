@@ -1,5 +1,6 @@
 var startButton = document.querySelector(".btn");
 var question = document.querySelector("h1");
+var highScore = document.querySelector("h3");
 var timeStart = 75;
 var questions = [
     {
@@ -48,38 +49,12 @@ var firstQuestion = function() {
     // secondQuestion();
 };
 
-var secondQuestion = function() {
-    var secondQItem = questions[1];
-    question.textContent = secondQItem.question;
-    for(let i = 0; i< questions[1].answerChoices.length; i++) {
-        createAnswerButtons(secondQItem.answerChoices[i]);
-    }
-
-    // thirdQuestion();
-};
-
-var thirdQuestion = function() {
-    var thirdQItem = questions[2];
-    question.textContent = thirdQItem.question;
-    for(let i = 0; i< questions[2].answerChoices.length; i++) {
-        createAnswerButtons(thirdQItem.answerChoices[i]);
-    }
-
-    // fourthQuestion();
-};
-
-var fourthQuestion = function() {
-    var fourthQItem = questions[3];
-    question.textContent = fourthQItem.question;
-    for(let i = 0; i< questions[3].answerChoices.length; i++) {
-        createAnswerButtons(fourthQItem.answerChoices[i]);
-    }
-
-    // highScores();
-};
-
 var highScores = function() {
+    hideEl();
 
+    highScore.textContent = "Start Over";
+    question.textContent = "High Scores";
+    
 };
 
 let createAnswerButtons = function(buttonTextIndex) {
@@ -98,10 +73,11 @@ var hideEl = function() {
 };
 
 var timer = function() {
-    console.log('time');
+    console.log('timer');
 
     // if !answer subtract 10 seconds from timer
 };
 
 
 startButton.addEventListener("click", playGame);
+highScore.addEventListener("click", highScores);
