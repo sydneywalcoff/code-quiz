@@ -40,9 +40,8 @@ header div {
     align-self: center;
 }
 
-a.high-score {
+h3.high-score {
     align-self: center;
-    text-decoration: none;
     color: var(--primary-color);
 }
 
