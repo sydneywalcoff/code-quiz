@@ -53,7 +53,6 @@ var timer = function() {
         if (timeRemaining <= 0) clearInterval(countdown)
         console.log(timeRemaining)
     }, 1000);
-    // 
     
 };
 
