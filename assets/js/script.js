@@ -1,6 +1,5 @@
 var startButton = document.querySelector(".btn");
 var question = document.querySelector("h1");
-var timeStart = 75;
 var questions = [];
 
 var startGame = function() {
@@ -45,7 +44,17 @@ var startGame = function() {
 };
 
 var timer = function() {
-    console.log('time');
+    // grab timer element
+    var timeRemaining = document.querySelector(".timer").textContent;
+    timeRemaining = 75;
+    var countdown = setInterval(function() {
+        timeRemaining--;
+        document.querySelector(".timer").textContent = timeRemaining;
+        if (timeRemaining <= 0) clearInterval(countdown)
+        console.log(timeRemaining)
+    }, 1000);
+    // 
+    
 };
 
 

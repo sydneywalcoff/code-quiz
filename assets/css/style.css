@@ -9,8 +9,9 @@
     font-family: sans-serif;
 }
 
-p {
+p, span {
     text-align: center;
+    align-self: center;
 }
 
 button {
