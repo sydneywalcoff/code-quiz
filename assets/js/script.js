@@ -1,6 +1,27 @@
 var startButton = document.querySelector(".btn");
 var question = document.querySelector("h1");
-var questions = [];
+var questions = [
+    {
+        question: "What is my hebrew name?",
+        answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"],
+        correctAnswer: "Shiriel"
+    },
+    {
+        question: "What is my dog's name?",
+        answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"],
+        correctAnswer: "Liba"
+    },
+    {
+        question: "What is my brother's name?",
+        answerChoices: ["Cole", "Eli", "Jackson", "Sam"],
+        correctAnswer: "Sam"
+    },
+    {
+        question: "What street did I grow up on?",
+        answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"],
+        correctAnswer: "Glenmore Blvd"
+    }
+];
 
 var startGame = function() {
     timer();
