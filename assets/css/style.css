@@ -15,13 +15,12 @@ p, span {
 }
 
 button {
-    justify-self: center;
     width: 250px;
     height: 50px;
     border-radius: 10px;
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    margin: 4%;
+    margin: 4% 0;
 }
 
 .hide {
@@ -60,6 +59,7 @@ main {
 
 h1 {
     margin: 2% auto;
+    text-align: center;
 }
 
 h2 {
