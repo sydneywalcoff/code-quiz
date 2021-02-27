@@ -1,5 +1,7 @@
 var startButton = document.querySelector(".btn");
 var question = document.querySelector("h1");
+var highScore = document.querySelector("h3");
+var timeStart = 75;
 var questions = [
     {
         question: "What is my hebrew name?",
@@ -22,46 +24,96 @@ var questions = [
         correctAnswer: "Glenmore Blvd"
     }
 ];
+var answer;
+var idCounter=0;
+var answerChoicesDiv = document.querySelector(".answer-choices");
 
-var startGame = function() {
+var playGame = function() {
+    // start timer
     timer();
-    question.textContent = "placeholder question";
 
-    // hides the `p` element and the start button 
+    // hide p element and start button
+    hideEl();
+
+    firstQuestion();
+};
+
+var firstQuestion = function() {
+    var firstQItem = questions[0];
+    let answers = firstQItem.answerChoices;
+    let correct;
+    question.textContent = firstQItem.question;
+    const firstChoice = document.createElement("button");
+    firstChoice.textContent = answers[0];
+    firstChoice.addEventListener("click", function(){
+        if(firstChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+    const secondChoice = document.createElement("button");
+    secondChoice.textContent = answers[1];
+    secondChoice.addEventListener("click", function(){
+        if(secondChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+    const thirdChoice = document.createElement("button");
+    thirdChoice.textContent = answers[2];
+    thirdChoice.addEventListener("click", function(){
+        if(thirdChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+    const fourthChoice = document.createElement("button");
+    fourthChoice.textContent = answers[3];
+    fourthChoice.addEventListener("click", function(){
+        if(fourthChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+
+    answerChoicesDiv.appendChild(firstChoice);
+    answerChoicesDiv.appendChild(secondChoice);
+    answerChoicesDiv.appendChild(thirdChoice);
+    answerChoicesDiv.appendChild(fourthChoice);
+
+    
+    
+};
+
+const wrongAnswer = function() {
+    alert('wrong!');
+
+};
+
+const correctAnswer = function() {
+    alert("correct!");
+};
+
+var highScores = function() {
+    hideEl();
+
+    highScore.textContent = "Start Over";
+    question.textContent = "High Scores";
+    highScore.addEventListener("click", function(){
+        location.reload(true);
+    });
+    
+};
+
+
+var hideEl = function() {
     var hiddenP = document.querySelector(".questionP");
     hiddenP.setAttribute("class", "hide");
     startButton.setAttribute("class", "hide")
-
-    // defines answer-choices div
-    var answerChoicesDiv = document.querySelector(".answer-choices");
-
-
-    // button one
-    var optionOne = document.createElement("button");
-    optionOne.textContent = "Option One";
-    optionOne.setAttribute("class", "btn");
-
-    // button two
-    var optionTwo = document.createElement("button");
-    optionTwo.textContent = "Option Two";
-    optionTwo.setAttribute("class", "btn");
-
-    // button three
-    var optionThree = document.createElement("button");
-    optionThree.textContent = "Option Three";
-    optionThree.setAttribute("class", "btn");
-
-    // button four
-    var optionFour = document.createElement("button");
-    optionFour.textContent = "Option Four";
-    optionFour.setAttribute("class", "btn");
-
-    // adding buttons to answer-choices div
-    answerChoicesDiv.appendChild(optionOne);
-    answerChoicesDiv.appendChild(optionTwo);
-    answerChoicesDiv.appendChild(optionThree);
-    answerChoicesDiv.appendChild(optionFour);
-   
 };
 
 var timer = function() {
@@ -72,10 +124,27 @@ var timer = function() {
         timeRemaining--;
         document.querySelector(".timer").textContent = timeRemaining;
         if (timeRemaining <= 0) clearInterval(countdown)
-        console.log(timeRemaining)
     }, 1000);
-    
+    return timeRemaining;
 };
 
 
-startButton.addEventListener("click", startGame);
+
+// const stopTimer = function(timeRemaining) {
+//     clearInterval();
+//     let score = timeRemaining;
+//     return score;
+// };
+
+// const saveScore = function(score) {
+//     let name = prompt("Congrats on making it to the end! What is your name?");
+//     let saveFile = {
+//         name: name,
+//         score: score
+//     }
+//     let savedScore = localStorage.setItem("userNameScore", JSON.stringify(saveFile))
+// };
+
+
+startButton.addEventListener("click", playGame);
+highScore.addEventListener("click", highScores);
