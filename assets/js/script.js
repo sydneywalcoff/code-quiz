@@ -84,14 +84,10 @@ var firstQuestion = function() {
     answerChoicesDiv.appendChild(secondChoice);
     answerChoicesDiv.appendChild(thirdChoice);
     answerChoicesDiv.appendChild(fourthChoice);
-
-    
-    
 };
 
 const wrongAnswer = function() {
     alert('wrong!');
-
 };
 
 const correctAnswer = function() {
