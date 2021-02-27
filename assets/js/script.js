@@ -24,9 +24,8 @@ var questions = [
         correctAnswer: "Glenmore Blvd"
     }
 ];
-var answer;
-var idCounter=0;
-var answerChoicesDiv = document.querySelector(".answer-choices");
+var $answerChoicesDiv = document.querySelector(".answer-choices");
+var $answerResponseDiv = document.querySelector(".answer-response");
 
 var playGame = function() {
     // start timer
@@ -80,18 +79,29 @@ var firstQuestion = function() {
         }
     });
 
-    answerChoicesDiv.appendChild(firstChoice);
-    answerChoicesDiv.appendChild(secondChoice);
-    answerChoicesDiv.appendChild(thirdChoice);
-    answerChoicesDiv.appendChild(fourthChoice);
+    $answerChoicesDiv.appendChild(firstChoice);
+    $answerChoicesDiv.appendChild(secondChoice);
+    $answerChoicesDiv.appendChild(thirdChoice);
+    $answerChoicesDiv.appendChild(fourthChoice);
 };
 
 const wrongAnswer = function() {
-    alert('wrong!');
+    let $wrong = document.createElement("h2");
+    $wrong.textContent = 'Incorrect';
+    $answerResponseDiv.appendChild($wrong);
+
+    // subtract 10 seconds
+
+    // remove 'incorrect' after couple secs
 };
 
 const correctAnswer = function() {
-    alert("correct!");
+    let $correct = document.createElement("h2");
+    $correct.textContent = 'Correct!';
+    $answerResponseDiv.appendChild($correct);
+    
+    //pause for correct message 
+    // move to next question
 };
 
 var highScores = function() {
@@ -123,6 +133,7 @@ var timer = function() {
     }, 1000);
     return timeRemaining;
 };
+
 
 
 

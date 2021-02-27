@@ -62,6 +62,12 @@ h1 {
     margin: 2% auto;
 }
 
+h2 {
+    text-align: center;
+    font-style: italic;
+    font-weight: lighter;
+}
+
 
 /* main */
 
@@ -82,3 +88,7 @@ h1 {
     justify-content: center;
 }
 
+/* answer validation div */
+.answer-response {
+    margin: 2% 20%;
+}
