@@ -9,19 +9,18 @@
     font-family: sans-serif;
 }
 
-p, span {
+p, span, a {
     text-align: center;
     align-self: center;
 }
 
 button {
-    justify-self: center;
     width: 250px;
     height: 50px;
     border-radius: 10px;
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    margin: 4%;
+    margin: 4% 0;
 }
 
 .hide {
@@ -43,8 +42,10 @@ header div {
 
 a.high-score {
     align-self: center;
-    text-decoration: none;
     color: var(--primary-color);
+    font-weight: bolder;
+    text-decoration: none;
+    font-size: 18px;
 }
 
 p.timer {
@@ -61,6 +62,13 @@ main {
 
 h1 {
     margin: 2% auto;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    font-style: italic;
+    font-weight: lighter;
 }
 
 
@@ -83,3 +91,7 @@ h1 {
     justify-content: center;
 }
 
+/* answer validation div */
+.answer-response {
+    margin: 2% 20%;
+}

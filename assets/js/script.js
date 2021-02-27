@@ -32,10 +32,24 @@ const questions = [
         index: 3
     }
 ];
+let idCounter = 0;
 
+const playGame = function() {
+    // start timer
+    timer();
+
+    // hide p element and start button
+    removeEl($startButton);
+    removeEl($infoP);
+
+    firstQuestion();
+
+};
 
 const nextQuestion = function() {
 // check index of current question
+    let currentIndex = idCounter;
+    console.log(idCounter);
 
 // if index < 4 ++ (that's new question object)
 
@@ -44,10 +58,10 @@ const nextQuestion = function() {
 
 
 const firstQuestion = function() {
-    const firstQItem = questions[0];
+    let firstQItem = questions[0];
     let answers = firstQItem.answerChoices;
     $questionEl.textContent = firstQItem.question;
-    const firstChoice = document.createElement("button");
+    let firstChoice = document.createElement("button");
     firstChoice.textContent = answers[0];
     firstChoice.addEventListener("click", function(){
         if(firstChoice.textContent === firstQItem.correctAnswer) {
@@ -56,7 +70,7 @@ const firstQuestion = function() {
             wrongAnswer();
         }
     });
-    const secondChoice = document.createElement("button");
+    let secondChoice = document.createElement("button");
     secondChoice.textContent = answers[1];
     secondChoice.addEventListener("click", function(){
         if(secondChoice.textContent === firstQItem.correctAnswer) {
@@ -84,13 +98,15 @@ const firstQuestion = function() {
         }
     });
 
-    // defines answer-choices div
-    var answerChoicesDiv = document.querySelector(".answer-choices");
+    $answerChoicesDiv.appendChild(firstChoice);
+    $answerChoicesDiv.appendChild(secondChoice);
+    $answerChoicesDiv.appendChild(thirdChoice);
+    $answerChoicesDiv.appendChild(fourthChoice);
 };
 
 const wrongAnswer = function() {
     let $wrongEl = document.createElement("h2");
-    $wrongEl.textContent = 'Incorrect';
+    $wrongEl.textContent = 'Incorrect. Try again!';
     $answerResponseDiv.appendChild($wrongEl);
 
     // subtract 10 seconds
@@ -112,6 +128,9 @@ const correctAnswer = function() {
     
     //pause for correct message
     setTimeout(function() {$correctEl.remove()}, 2000);
+
+    // increase idCounter
+    idCounter++;
 
     // move to next question
     nextQuestion();
@@ -137,17 +156,6 @@ const timer = function() {
     
 };
 
-const playGame = function() {
-    // start timer
-    timer();
-
-    // hide p element and start button
-    removeEl($startButton);
-    removeEl($infoP);
-
-    firstQuestion();
-    
-};
 
 
 
