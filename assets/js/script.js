@@ -42,67 +42,42 @@ const playGame = function() {
     removeEl($startButton);
     removeEl($infoP);
 
-    firstQuestion();
+    questionHandler(0);
 
 };
 
 const nextQuestion = function() {
-// check index of current question
+    // check index of current question
     let currentIndex = idCounter;
-    console.log(idCounter);
 
-// if index < 4 ++ (that's new question object)
-
-    
+    // pass current index into question Handler
+    questionHandler(currentIndex);
 };
 
+const questionHandler = function(index) {
+    let currentQuestionObj = questions[index];
+    let currentQuestion = currentQuestionObj.question;
+    let answers = currentQuestionObj.answerChoices;
+    let correct = currentQuestionObj.correctAnswer;
+    // set question text
+    $questionEl.textContent = currentQuestion;
+    // loop through creating buttons
+    for(let i=0; i < answers.length; i++) {
+        let $button = document.createElement("button");
+        $button.setAttribute("class", "btn btn"+i);
+        $button.textContent = answers[i];
+        $answerChoicesDiv.appendChild($button);
+        $button.addEventListener("click", function() {
+            if($button.textContent === correct) {
+                correctAnswer();
+            } else {
+                wrongAnswer();
+            }
+        });
+    }
 
-const firstQuestion = function() {
-    let firstQItem = questions[0];
-    let answers = firstQItem.answerChoices;
-    $questionEl.textContent = firstQItem.question;
-    let firstChoice = document.createElement("button");
-    firstChoice.textContent = answers[0];
-    firstChoice.addEventListener("click", function(){
-        if(firstChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    let secondChoice = document.createElement("button");
-    secondChoice.textContent = answers[1];
-    secondChoice.addEventListener("click", function(){
-        if(secondChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    const thirdChoice = document.createElement("button");
-    thirdChoice.textContent = answers[2];
-    thirdChoice.addEventListener("click", function(){
-        if(thirdChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    const fourthChoice = document.createElement("button");
-    fourthChoice.textContent = answers[3];
-    fourthChoice.addEventListener("click", function(){
-        if(fourthChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-
-    $answerChoicesDiv.appendChild(firstChoice);
-    $answerChoicesDiv.appendChild(secondChoice);
-    $answerChoicesDiv.appendChild(thirdChoice);
-    $answerChoicesDiv.appendChild(fourthChoice);
 };
+
 
 const wrongAnswer = function() {
     let $wrongEl = document.createElement("h2");
@@ -121,24 +96,32 @@ const wrongAnswer = function() {
     setTimeout(function() {$wrongEl.remove()}, 2000);
 };
 
+// function to dynamically remove html elements
+const removeEl = function(el) {
+    el.remove();
+};
+
 const correctAnswer = function() {
     let $correctEl = document.createElement("h2");
     $correctEl.textContent = 'Correct!';
     $answerResponseDiv.appendChild($correctEl);
+
+    // increase idCounter
+    idCounter++;
     
     //pause for correct message
     setTimeout(function() {$correctEl.remove()}, 2000);
 
-    // increase idCounter
-    idCounter++;
+    
+
+    // for loop to delete current buttons before moving on
+    for(let i=0; i < 4; i++) {
+        let $button = document.querySelector(".btn"+i);
+        removeEl($button);
+    }
 
     // move to next question
     nextQuestion();
-};
-
-// function to dynamically remove html elements
-const removeEl = function(el) {
-    el.remove();
 };
 
 // timer
