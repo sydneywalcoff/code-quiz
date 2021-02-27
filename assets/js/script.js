@@ -1,60 +1,154 @@
-var startButton = document.querySelector(".btn");
-var question = document.querySelector("h1");
-var questions = [];
+const $startButton = document.querySelector(".btn");
+const $questionEl = document.querySelector("h1");
+const $highScoreEl = document.querySelector("h3");
+const $answerChoicesDiv = document.querySelector(".answer-choices");
+const $answerResponseDiv = document.querySelector(".answer-response");
+const $infoP = document.querySelector(".info-p");
 
-var startGame = function() {
-    timer();
-    question.textContent = "placeholder question";
+const timeStart = 75;
+const questions = [
+    {
+        question: "What is my hebrew name?",
+        answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"],
+        correctAnswer: "Shiriel",
+        index: 0
+    },
+    {
+        question: "What is my dog's name?",
+        answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"],
+        correctAnswer: "Liba",
+        index: 1
+    },
+    {
+        question: "What is my brother's name?",
+        answerChoices: ["Cole", "Eli", "Jackson", "Sam"],
+        correctAnswer: "Sam",
+        index: 2
+    },
+    {
+        question: "What street did I grow up on?",
+        answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"],
+        correctAnswer: "Glenmore Blvd",
+        index: 3
+    }
+];
 
-    // hides the `p` element and the start button 
-    var hiddenP = document.querySelector(".questionP");
-    hiddenP.setAttribute("class", "hide");
-    startButton.setAttribute("class", "hide")
 
-    // defines answer-choices div
-    var answerChoicesDiv = document.querySelector(".answer-choices");
+const nextQuestion = function() {
+// check index of current question
 
+// if index < 4 ++ (that's new question object)
 
-    // button one
-    var optionOne = document.createElement("button");
-    optionOne.textContent = "Option One";
-    optionOne.setAttribute("class", "btn");
-
-    // button two
-    var optionTwo = document.createElement("button");
-    optionTwo.textContent = "Option Two";
-    optionTwo.setAttribute("class", "btn");
-
-    // button three
-    var optionThree = document.createElement("button");
-    optionThree.textContent = "Option Three";
-    optionThree.setAttribute("class", "btn");
-
-    // button four
-    var optionFour = document.createElement("button");
-    optionFour.textContent = "Option Four";
-    optionFour.setAttribute("class", "btn");
-
-    // adding buttons to answer-choices div
-    answerChoicesDiv.appendChild(optionOne);
-    answerChoicesDiv.appendChild(optionTwo);
-    answerChoicesDiv.appendChild(optionThree);
-    answerChoicesDiv.appendChild(optionFour);
-   
-};
-
-var timer = function() {
-    // grab timer element
-    var timeRemaining = document.querySelector(".timer").textContent;
-    timeRemaining = 75;
-    var countdown = setInterval(function() {
-        timeRemaining--;
-        document.querySelector(".timer").textContent = timeRemaining;
-        if (timeRemaining <= 0) clearInterval(countdown)
-        console.log(timeRemaining)
-    }, 1000);
     
 };
 
 
-startButton.addEventListener("click", startGame);
+const firstQuestion = function() {
+    const firstQItem = questions[0];
+    let answers = firstQItem.answerChoices;
+    $questionEl.textContent = firstQItem.question;
+    const firstChoice = document.createElement("button");
+    firstChoice.textContent = answers[0];
+    firstChoice.addEventListener("click", function(){
+        if(firstChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+    const secondChoice = document.createElement("button");
+    secondChoice.textContent = answers[1];
+    secondChoice.addEventListener("click", function(){
+        if(secondChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+    const thirdChoice = document.createElement("button");
+    thirdChoice.textContent = answers[2];
+    thirdChoice.addEventListener("click", function(){
+        if(thirdChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+    const fourthChoice = document.createElement("button");
+    fourthChoice.textContent = answers[3];
+    fourthChoice.addEventListener("click", function(){
+        if(fourthChoice.textContent === firstQItem.correctAnswer) {
+            correctAnswer();
+        } else {
+            wrongAnswer();
+        }
+    });
+
+    // defines answer-choices div
+    var answerChoicesDiv = document.querySelector(".answer-choices");
+};
+
+const wrongAnswer = function() {
+    let $wrongEl = document.createElement("h2");
+    $wrongEl.textContent = 'Incorrect';
+    $answerResponseDiv.appendChild($wrongEl);
+
+    // subtract 10 seconds
+    let timeRemaining = document.querySelector('.timer');
+    let currentScore = timeRemaining.textContent;
+    currentScore -= 10;
+    console.log(currentScore)
+    timeRemaining = currentScore;
+
+
+    // remove 'incorrect' after couple secs=
+    setTimeout(function() {$wrongEl.remove()}, 2000);
+};
+
+const correctAnswer = function() {
+    let $correctEl = document.createElement("h2");
+    $correctEl.textContent = 'Correct!';
+    $answerResponseDiv.appendChild($correctEl);
+    
+    //pause for correct message
+    setTimeout(function() {$correctEl.remove()}, 2000);
+
+    // move to next question
+    nextQuestion();
+};
+
+// function to dynamically remove html elements
+const removeEl = function(el) {
+    el.remove();
+};
+
+// timer
+const timer = function() {
+    // grab timer element
+    let timeRemaining = document.querySelector(".timer").textContent;
+    timeRemaining = 75;
+    const countdown = setInterval(function() {
+        timeRemaining--;
+        document.querySelector(".timer").textContent = timeRemaining;
+        if (timeRemaining <= 0) {
+            clearInterval(countdown)
+        }
+    }, 1000);
+    
+};
+
+const playGame = function() {
+    // start timer
+    timer();
+
+    // hide p element and start button
+    removeEl($startButton);
+    removeEl($infoP);
+
+    firstQuestion();
+    
+};
+
+
+
+$startButton.addEventListener("click", playGame);
