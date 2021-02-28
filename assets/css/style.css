@@ -1,6 +1,7 @@
 :root {
     --primary-color: #583DA4;
     --secondary-color: #DEC9F8;
+    --tertiary-color: rgba(211,211,211,0.3);
 }
 
 * {
@@ -12,6 +13,7 @@
 p, span, a {
     text-align: center;
     align-self: center;
+    text-decoration: none;
 }
 
 button {
@@ -25,6 +27,10 @@ button {
 
 .hide {
     display: none;
+}
+
+.border {
+    border: 1px solid var(--tertiary-color);
 }
 
 /* header */
@@ -95,6 +101,9 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 80%;
+    height: 400px;
+    background-color: var(--tertiary-color);
 }
 
 /* answer validation div */
