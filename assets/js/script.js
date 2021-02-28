@@ -185,11 +185,12 @@ const endGame = function() {
         e.preventDefault();
 
         let initials = $nameInput.value;
+        saveFiles = JSON.parse(localStorage.getItem("highScores"));
         let saveObj = {
             initials: initials,
             score: score
         };
-        saveFiles = JSON.parse(localStorage.getItem("highScores"));
+        
         saveFiles.push(saveObj);
         console.log(saveFiles);
         
