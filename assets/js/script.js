@@ -1,157 +1,143 @@
-var startButton = document.querySelector(".btn");
-var question = document.querySelector("h1");
-var highScore = document.querySelector("h3");
-var timeStart = 75;
-var questions = [
+const $startButton = document.querySelector(".btn");
+const $questionEl = document.querySelector("h1");
+const $highScoreEl = document.querySelector("h3");
+const $answerChoicesDiv = document.querySelector(".answer-choices");
+const $answerResponseDiv = document.querySelector(".answer-response");
+const $infoP = document.querySelector(".info-p");
+
+const timeStart = 75;
+const questions = [
     {
         question: "What is my hebrew name?",
         answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"],
-        correctAnswer: "Shiriel"
+        correctAnswer: "Shiriel",
+        index: 0
     },
     {
         question: "What is my dog's name?",
         answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"],
-        correctAnswer: "Liba"
+        correctAnswer: "Liba",
+        index: 1
     },
     {
         question: "What is my brother's name?",
         answerChoices: ["Cole", "Eli", "Jackson", "Sam"],
-        correctAnswer: "Sam"
+        correctAnswer: "Sam",
+        index: 2
     },
     {
         question: "What street did I grow up on?",
         answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"],
-        correctAnswer: "Glenmore Blvd"
+        correctAnswer: "Glenmore Blvd",
+        index: 3
     }
 ];
-var $answerChoicesDiv = document.querySelector(".answer-choices");
-var $answerResponseDiv = document.querySelector(".answer-response");
+let idCounter = 0;
 
-var playGame = function() {
+const playGame = function() {
     // start timer
     timer();
 
     // hide p element and start button
-    hideEl();
+    removeEl($startButton);
+    removeEl($infoP);
 
-    firstQuestion();
+    questionHandler(0);
+
 };
 
-var firstQuestion = function() {
-    var firstQItem = questions[0];
-    let answers = firstQItem.answerChoices;
-    let correct;
-    question.textContent = firstQItem.question;
-    const firstChoice = document.createElement("button");
-    firstChoice.textContent = answers[0];
-    firstChoice.addEventListener("click", function(){
-        if(firstChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    const secondChoice = document.createElement("button");
-    secondChoice.textContent = answers[1];
-    secondChoice.addEventListener("click", function(){
-        if(secondChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    const thirdChoice = document.createElement("button");
-    thirdChoice.textContent = answers[2];
-    thirdChoice.addEventListener("click", function(){
-        if(thirdChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    const fourthChoice = document.createElement("button");
-    fourthChoice.textContent = answers[3];
-    fourthChoice.addEventListener("click", function(){
-        if(fourthChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
+const nextQuestion = function() {
+    // check index of current question
+    let currentIndex = idCounter;
 
-    $answerChoicesDiv.appendChild(firstChoice);
-    $answerChoicesDiv.appendChild(secondChoice);
-    $answerChoicesDiv.appendChild(thirdChoice);
-    $answerChoicesDiv.appendChild(fourthChoice);
+    // pass current index into question Handler
+    questionHandler(currentIndex);
 };
+
+const questionHandler = function(index) {
+    let currentQuestionObj = questions[index];
+    let currentQuestion = currentQuestionObj.question;
+    let answers = currentQuestionObj.answerChoices;
+    let correct = currentQuestionObj.correctAnswer;
+    // set question text
+    $questionEl.textContent = currentQuestion;
+    // loop through creating buttons
+    for(let i=0; i < answers.length; i++) {
+        let $button = document.createElement("button");
+        $button.setAttribute("class", "btn btn"+i);
+        $button.textContent = answers[i];
+        $answerChoicesDiv.appendChild($button);
+        $button.addEventListener("click", function() {
+            if($button.textContent === correct) {
+                correctAnswer();
+            } else {
+                wrongAnswer();
+            }
+        });
+    }
+
+};
+
 
 const wrongAnswer = function() {
-    let $wrong = document.createElement("h2");
-    $wrong.textContent = 'Incorrect';
-    $answerResponseDiv.appendChild($wrong);
+    let $wrongEl = document.createElement("h2");
+    $wrongEl.textContent = 'Incorrect. Try again!';
+    $answerResponseDiv.appendChild($wrongEl);
 
     // subtract 10 seconds
+    let timeRemaining = document.querySelector('.timer');
+    let currentScore = timeRemaining.textContent;
+    currentScore -= 10;
+    console.log(currentScore)
+    timeRemaining = currentScore;
 
-    // remove 'incorrect' after couple secs
+
+    // remove 'incorrect' after couple secs=
+    setTimeout(function() {$wrongEl.remove()}, 2000);
+};
+
+// function to dynamically remove html elements
+const removeEl = function(el) {
+    el.remove();
 };
 
 const correctAnswer = function() {
-    let $correct = document.createElement("h2");
-    $correct.textContent = 'Correct!';
-    $answerResponseDiv.appendChild($correct);
+    let $correctEl = document.createElement("h2");
+    $correctEl.textContent = 'Correct!';
+    $answerResponseDiv.appendChild($correctEl);
+
+    // increase idCounter
+    idCounter++;
     
-    //pause for correct message 
+    //pause for correct message
+    setTimeout(function() {$correctEl.remove()}, 2000);
+
+    
+
+    // for loop to delete current buttons before moving on
+    for(let i=0; i < 4; i++) {
+        let $button = document.querySelector(".btn"+i);
+        removeEl($button);
+    }
+
     // move to next question
+    nextQuestion();
 };
 
-var highScores = function() {
-    hideEl();
-
-    highScore.textContent = "Start Over";
-    question.textContent = "High Scores";
-    highScore.addEventListener("click", function(){
-        location.reload(true);
-    });
-    
-};
-
-
-var hideEl = function() {
-    var hiddenP = document.querySelector(".questionP");
-    hiddenP.setAttribute("class", "hide");
-    startButton.setAttribute("class", "hide")
-};
-
-var timer = function() {
+// timer
+const timer = function() {
     // grab timer element
-    var timeRemaining = document.querySelector(".timer").textContent;
+    let timeRemaining = document.querySelector(".timer").textContent;
     timeRemaining = 75;
-    var countdown = setInterval(function() {
+    const countdown = setInterval(function() {
         timeRemaining--;
         document.querySelector(".timer").textContent = timeRemaining;
-        if (timeRemaining <= 0) clearInterval(countdown)
+        if (timeRemaining <= 0) {
+            clearInterval(countdown)
+        }
     }, 1000);
     return timeRemaining;
 };
 
 
-
-
-// const stopTimer = function(timeRemaining) {
-//     clearInterval();
-//     let score = timeRemaining;
-//     return score;
-// };
-
-// const saveScore = function(score) {
-//     let name = prompt("Congrats on making it to the end! What is your name?");
-//     let saveFile = {
-//         name: name,
-//         score: score
-//     }
-//     let savedScore = localStorage.setItem("userNameScore", JSON.stringify(saveFile))
-// };
-
-
-startButton.addEventListener("click", playGame);
-highScore.addEventListener("click", highScores);
+$startButton.addEventListener("click", playGame);
