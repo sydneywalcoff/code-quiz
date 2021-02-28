@@ -101,7 +101,12 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
 
+.hs {
+    width: 80%;
+    height: 400px;
+    background-color: var(--tertiary-color);
 }
 
 /* answer validation div */
