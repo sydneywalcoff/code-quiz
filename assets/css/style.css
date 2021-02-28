@@ -22,15 +22,15 @@ button {
     border-radius: 10px;
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    margin: 4% 0;
+    margin: 4% auto;
 }
 
 .hide {
     display: none;
 }
 
-.border {
-    border: 1px solid var(--tertiary-color);
+.background {
+    background-color: var(--tertiary-color);
 }
 
 /* header */
@@ -101,9 +101,7 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 80%;
-    height: 400px;
-    background-color: var(--tertiary-color);
+
 }
 
 /* answer validation div */
