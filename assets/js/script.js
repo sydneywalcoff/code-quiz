@@ -24,15 +24,15 @@ const questions = [
         index: 1
     },
     {
-        question: "What is my brother's name?",
-        answerChoices: ["Cole", "Eli", "Jackson", "Sam"],
-        correctAnswer: "Sam",
+        question: "What type of validation puts you in danger of creating an infinite loop?",
+        answerChoices: ["for loop", "if/else statements", "while loop", "for/in loop"],
+        correctAnswer: "while loop",
         index: 2
     },
     {
-        question: "What street did I grow up on?",
-        answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"],
-        correctAnswer: "Glenmore Blvd",
+        question: "Which of the following is NOT a string method?",
+        answerChoices: [".length", ".indexOf()", ".join()", ".slice()"],
+        correctAnswer: ".join()",
         index: 3
     }
 ];
@@ -99,20 +99,22 @@ const playGame = function() {
         // remove 10 seconds from value
         timeRemaining -= 10;
         $timerEl.textContent = timeRemaining;
-        // start new timer
-        countdown = setInterval(function() {
-            timeRemaining--;
-            document.querySelector(".timer").textContent = timeRemaining;
-            if (timeRemaining <= 0) {
-                clearInterval(countdown)
-            }
-        }, 1000);
-
+        // validate timeRemaining > 0
         if(timeRemaining <= 0) {
+            $timerEl.textContent = '0';
             endGame();
-            $timerEl.textContent = '';
+        } 
+        // start new timer
+        else {
+            countdown = setInterval(function() {
+                timeRemaining--;
+                document.querySelector(".timer").textContent = timeRemaining;
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown)
+                }
+            }, 1000);
         }
-    
+        
         // remove 'incorrect' after couple secs
         setTimeout(function() {$wrongEl.remove()}, 2000);
     };
