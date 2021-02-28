@@ -12,31 +12,36 @@ let timeRemaining = 75;
 
 const questions = [
     {
-        question: "Which of these values is NOT falsy",
+        question: "which of these values is NOT falsy?",
         answerChoices: ["false", "0", "' '", "[ ]"],
         correctAnswer: "[ ]",
         index: 0
     },
     {
-        question: "What kind of punctuation denotes an object?",
+        question: "what kind of punctuation denotes an object?",
         answerChoices: ["parentheses", "quotes", "curly brackets", "square brackets"],
         correctAnswer: "curly brackets",
         index: 1
     },
     {
-        question: "What type of validation puts you in danger of creating an infinite loop?",
+        question: "what type of validation puts you in danger of creating an infinite loop?",
         answerChoices: ["for loop", "if/else statements", "while loop", "for/in loop"],
         correctAnswer: "while loop",
         index: 2
     },
     {
-        question: "Which of the following is NOT a string method?",
+        question: "which of the following is NOT a string method?",
         answerChoices: [".length", ".indexOf()", ".join()", ".slice()"],
         correctAnswer: ".join()",
         index: 3
     }
 ];
 let idCounter = 0;
+
+// function to dynamically remove html elements
+const removeEl = function(el) {
+    el.remove();
+};
 
 const playGame = function() {
     // hide p element and start button
@@ -71,6 +76,7 @@ const playGame = function() {
         // check index of current question
         let currentIndex = idCounter;
         if(currentIndex >= questions.length) {
+            clearInterval(countdown);
             endGame();
         } else {
         // pass current index into question Handler
@@ -142,14 +148,44 @@ const playGame = function() {
     };
 }; // playGame() end
 
-
-// function to dynamically remove html elements
-const removeEl = function(el) {
-    el.remove();
-};
-
 const endGame = function() {
-    alert('the game is over');
+    // Dynamically adding title
+    $questionEl.textContent = "game over.";
+    let $questionSubtitle = document.createElement("p");
+    $questionSubtitle.textContent = `your final score is {ENTER VARIABLE}`
+    $questionDiv.appendChild($questionSubtitle);
+    // form label, input, and button
+    let $inputLabel = document.createElement("label");
+    $inputLabel.setAttribute("for", "initials");
+    $inputLabel.textContent = "Enter your initials:";
+    let $nameInput = document.createElement("input");
+    $nameInput.setAttribute("type", "text");
+    $nameInput.setAttribute("name", "initials");
+    let $inputButton = document.createElement("input");
+    $inputButton.setAttribute("type", "submit");
+    $inputButton.setAttribute("class", "btn");
+
+    // event listeners
+    $inputButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        let initials = $nameInput.value;
+        let score = timeRemaining;
+        // save to localStorage
+        localStorage.setItem("initials", initials);
+        localStorage.setItem("score", score);
+        
+    });
+
+    $answerChoicesDiv.appendChild($inputLabel);
+    $answerChoicesDiv.appendChild($nameInput);
+    $answerChoicesDiv.appendChild($inputButton);
+
 };
 
 $startButton.addEventListener("click", playGame);
+
+// redirects to high Scores page
+// let redirect = function() {
+//     document.location.href = "./assets/js/script.js"
+// };
+// redirect();
