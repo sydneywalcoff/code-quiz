@@ -12,15 +12,15 @@ let timeRemaining = 75;
 
 const questions = [
     {
-        question: "What is my hebrew name?",
-        answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"],
-        correctAnswer: "Shiriel",
+        question: "Which of these values is NOT falsy",
+        answerChoices: ["false", "0", "' '", "[ ]"],
+        correctAnswer: "[ ]",
         index: 0
     },
     {
-        question: "What is my dog's name?",
-        answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"],
-        correctAnswer: "Liba",
+        question: "What kind of punctuation denotes an object?",
+        answerChoices: ["parentheses", "quotes", "curly brackets", "square brackets"],
+        correctAnswer: "curly brackets",
         index: 1
     },
     {
@@ -79,18 +79,39 @@ const playGame = function() {
         
     };
 
+    questionHandler(0);
+    let countdown = setInterval(function() {
+        timeRemaining--;
+        document.querySelector(".timer").textContent = timeRemaining;
+        if (timeRemaining <= 0) {
+            clearInterval(countdown)
+        }
+    }, 1000);
+
     // wrongAnswer
     const wrongAnswer = function() {
         let $wrongEl = document.createElement("h2");
         $wrongEl.textContent = 'Incorrect. Try again!';
         $answerResponseDiv.appendChild($wrongEl);
     
-        // subtract 10 seconds
-        let timeRemaining = document.querySelector('.timer');
-        let currentScore = timeRemaining.textContent;
-        currentScore -= 10;
-        console.log(currentScore)
-        timeRemaining = currentScore;
+        // stop timer
+        clearInterval(countdown);
+        // remove 10 seconds from value
+        timeRemaining -= 10;
+        $timerEl.textContent = timeRemaining;
+        // start new timer
+        countdown = setInterval(function() {
+            timeRemaining--;
+            document.querySelector(".timer").textContent = timeRemaining;
+            if (timeRemaining <= 0) {
+                clearInterval(countdown)
+            }
+        }, 1000);
+
+        if(timeRemaining <= 0) {
+            endGame();
+            $timerEl.textContent = '';
+        }
     
         // remove 'incorrect' after couple secs
         setTimeout(function() {$wrongEl.remove()}, 2000);
@@ -117,10 +138,7 @@ const playGame = function() {
         // move to next question
         nextQuestion();
     };
-
-    questionHandler(0);
-    timer();  
-};
+}; // playGame() end
 
 
 // function to dynamically remove html elements
@@ -128,16 +146,8 @@ const removeEl = function(el) {
     el.remove();
 };
 
-
-const timer = function() { 
-    const countdown = setInterval(function() {
-        timeRemaining--;
-        document.querySelector(".timer").textContent = timeRemaining;
-        if (timeRemaining <= 0) {
-            clearInterval(countdown)
-        }
-    }, 1000);
+const endGame = function() {
+    alert('the game is over');
 };
-
 
 $startButton.addEventListener("click", playGame);
