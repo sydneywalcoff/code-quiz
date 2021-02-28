@@ -10,6 +10,9 @@ const $infoP = document.querySelector(".info-p");
 // start value
 let timeRemaining = 75;
 
+// get highscore array
+saveFiles = [];
+
 const questions = [
     {
         question: "which of these values is NOT falsy?",
@@ -19,13 +22,13 @@ const questions = [
     },
     {
         question: "what kind of punctuation denotes an object?",
-        answerChoices: ["parentheses", "quotes", "curly brackets", "square brackets"],
+        answerChoices: ["curly brackets", "quotes", "parentheses", "square brackets"],
         correctAnswer: "curly brackets",
         index: 1
     },
     {
         question: "what type of validation puts you in danger of creating an infinite loop?",
-        answerChoices: ["for loop", "if/else statements", "while loop", "for/in loop"],
+        answerChoices: ["for loop", "while loop", "if/else statements", "for/in loop"],
         correctAnswer: "while loop",
         index: 2
     },
@@ -36,7 +39,7 @@ const questions = [
         index: 3
     }
 ];
-let idCounter = 0;
+let questionCounter = 0;
 
 // function to dynamically remove html elements
 const removeEl = function(el) {
@@ -74,7 +77,7 @@ const playGame = function() {
 
     const nextQuestion = function() {
         // check index of current question
-        let currentIndex = idCounter;
+        let currentIndex = questionCounter;
         if(currentIndex >= questions.length) {
             clearInterval(countdown);
             endGame();
@@ -131,8 +134,8 @@ const playGame = function() {
         $correctEl.textContent = 'Correct!';
         $answerResponseDiv.appendChild($correctEl);
 
-        // increase idCounter
-        idCounter++;
+        // increase questionCounter
+        questionCounter++;
         
         //pause for 2 seconds correct message
         setTimeout(function() {$correctEl.remove()}, 2000);
@@ -149,10 +152,11 @@ const playGame = function() {
 }; // playGame() end
 
 const endGame = function() {
+    let score = timeRemaining;
     // Dynamically adding title
     $questionEl.textContent = "game over.";
     let $questionSubtitle = document.createElement("p");
-    $questionSubtitle.textContent = `your final score is {ENTER VARIABLE}`
+    $questionSubtitle.textContent = `your final score is ${score}`;
     $questionDiv.appendChild($questionSubtitle);
     // form label, input, and button
     let $inputLabel = document.createElement("label");
@@ -161,31 +165,43 @@ const endGame = function() {
     let $nameInput = document.createElement("input");
     $nameInput.setAttribute("type", "text");
     $nameInput.setAttribute("name", "initials");
+    $nameInput.setAttribute("placeholder", "enter your initials");
     let $inputButton = document.createElement("input");
     $inputButton.setAttribute("type", "submit");
     $inputButton.setAttribute("class", "btn");
 
-    // event listeners
-    $inputButton.addEventListener("click", function(e) {
-        e.preventDefault();
-        let initials = $nameInput.value;
-        let score = timeRemaining;
-        // save to localStorage
-        localStorage.setItem("initials", initials);
-        localStorage.setItem("score", score);
+    const saveScore = function() {
         
-    });
+        // stringify
+        localStorage.setItem("highScores", JSON.stringify(saveFiles));
+    };
 
     $answerChoicesDiv.appendChild($inputLabel);
     $answerChoicesDiv.appendChild($nameInput);
     $answerChoicesDiv.appendChild($inputButton);
 
+    // event listeners
+    $inputButton.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        let initials = $nameInput.value;
+        let saveObj = {
+            initials: initials,
+            score: score
+        };
+        saveFiles = JSON.parse(localStorage.getItem("highScores"));
+        saveFiles.push(saveObj);
+        console.log(saveFiles);
+        
+        saveScore();
+        // redirects to high Scores page
+        let redirect = function() {
+            document.location.href = "./high-score.html";
+        };
+        redirect();
+    });
+
 };
 
 $startButton.addEventListener("click", playGame);
 
-// redirects to high Scores page
-// let redirect = function() {
-//     document.location.href = "./assets/js/script.js"
-// };
-// redirect();

@@ -109,6 +109,15 @@ h2 {
     background-color: var(--tertiary-color);
 }
 
+p.high-score {
+    background-color: var(--secondary-color);
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* answer validation div */
 .answer-response {
     margin: 2% 20%;
