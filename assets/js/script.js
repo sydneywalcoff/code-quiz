@@ -109,7 +109,7 @@ const correctAnswer = function() {
     // increase idCounter
     idCounter++;
     
-    //pause for correct message
+    //pause for 2 seconds correct message
     setTimeout(function() {$correctEl.remove()}, 2000);
 
     
