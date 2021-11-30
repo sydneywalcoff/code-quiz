@@ -1,157 +1,225 @@
-var startButton = document.querySelector(".btn");
-var question = document.querySelector("h1");
-var highScore = document.querySelector("h3");
-var timeStart = 75;
-var questions = [
+const $startButton = document.querySelector(".btn");
+const $questionEl = document.querySelector("h1");
+const $highScoreEl = document.querySelector("h3");
+const $timerEl = document.querySelector(".timer");
+const $questionDiv = document.querySelector(".questions");
+const $answerChoicesDiv = document.querySelector(".answer-choices");
+const $answerResponseDiv = document.querySelector(".answer-response");
+const $infoP = document.querySelector(".info-p");
+
+// start value
+let timeRemaining = 75;
+
+
+// get highscore array
+saveFiles = [];
+console.log(saveFiles);
+const questions = [
     {
-        question: "What is my hebrew name?",
-        answerChoices: ["Batsheva", "Chana", "Shiriel", "Lior"],
-        correctAnswer: "Shiriel"
+        question: "which of these values is NOT falsy?",
+        answerChoices: ["false", "0", "' '", "[ ]"],
+        correctAnswer: "[ ]",
+        index: 0
     },
     {
-        question: "What is my dog's name?",
-        answerChoices: ["Liba", "Sweetpea", "Lurch", "Sniffers"],
-        correctAnswer: "Liba"
+        question: "what kind of punctuation denotes an object?",
+        answerChoices: ["curly brackets", "quotes", "parentheses", "square brackets"],
+        correctAnswer: "curly brackets",
+        index: 1
     },
     {
-        question: "What is my brother's name?",
-        answerChoices: ["Cole", "Eli", "Jackson", "Sam"],
-        correctAnswer: "Sam"
+        question: "what type of validation puts you in danger of creating an infinite loop?",
+        answerChoices: ["for loop", "while loop", "if/else statements", "for/in loop"],
+        correctAnswer: "while loop",
+        index: 2
     },
     {
-        question: "What street did I grow up on?",
-        answerChoices: ["Glenoaks Blvd", "Glenmore Blvd", "Chevy Chase Dr", "Burbank Blvd"],
-        correctAnswer: "Glenmore Blvd"
+        question: "which of the following is NOT a string method?",
+        answerChoices: [".length", ".indexOf()", ".join()", ".slice()"],
+        correctAnswer: ".join()",
+        index: 3
     }
 ];
-var $answerChoicesDiv = document.querySelector(".answer-choices");
-var $answerResponseDiv = document.querySelector(".answer-response");
+let questionCounter = 0;
 
-var playGame = function() {
-    // start timer
-    timer();
+// function to dynamically remove html elements
+const removeEl = function(el) {
+    el.remove();
+};
 
+const saveScore = function() {    
+    // stringify
+    localStorage.setItem("highScores", JSON.stringify(saveFiles));
+};
+
+const loadScore = function() {
+    console.log(saveFiles);
+   saveFiles = JSON.parse(localStorage.getItem("highScores"));
+   if (!saveFiles) {
+       saveFiles = [];
+   }
+};
+
+
+const playGame = function() {
+    loadScore();
     // hide p element and start button
-    hideEl();
+    removeEl($startButton);
+    removeEl($infoP);
 
-    firstQuestion();
-};
-
-var firstQuestion = function() {
-    var firstQItem = questions[0];
-    let answers = firstQItem.answerChoices;
-    let correct;
-    question.textContent = firstQItem.question;
-    const firstChoice = document.createElement("button");
-    firstChoice.textContent = answers[0];
-    firstChoice.addEventListener("click", function(){
-        if(firstChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
+    const questionHandler = function(index) {
+        let currentQuestionObj = questions[index];
+        let currentQuestion = currentQuestionObj.question;
+        let answers = currentQuestionObj.answerChoices;
+        let correct = currentQuestionObj.correctAnswer;
+        // set question text
+        $questionEl.textContent = currentQuestion;
+        // loop through creating buttons
+        for(let i=0; i < answers.length; i++) {
+            let $button = document.createElement("button");
+            $button.setAttribute("class", "btn btn"+i);
+            $button.textContent = answers[i];
+            $answerChoicesDiv.appendChild($button);
+            $button.addEventListener("click", function() {
+                if($button.textContent === correct) {
+                    correctAnswer();
+                } else {
+                    wrongAnswer();
+                }
+            });
         }
-    });
-    const secondChoice = document.createElement("button");
-    secondChoice.textContent = answers[1];
-    secondChoice.addEventListener("click", function(){
-        if(secondChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    const thirdChoice = document.createElement("button");
-    thirdChoice.textContent = answers[2];
-    thirdChoice.addEventListener("click", function(){
-        if(thirdChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-    const fourthChoice = document.createElement("button");
-    fourthChoice.textContent = answers[3];
-    fourthChoice.addEventListener("click", function(){
-        if(fourthChoice.textContent === firstQItem.correctAnswer) {
-            correctAnswer();
-        } else {
-            wrongAnswer();
-        }
-    });
-
-    $answerChoicesDiv.appendChild(firstChoice);
-    $answerChoicesDiv.appendChild(secondChoice);
-    $answerChoicesDiv.appendChild(thirdChoice);
-    $answerChoicesDiv.appendChild(fourthChoice);
-};
-
-const wrongAnswer = function() {
-    let $wrong = document.createElement("h2");
-    $wrong.textContent = 'Incorrect';
-    $answerResponseDiv.appendChild($wrong);
-
-    // subtract 10 seconds
-
-    // remove 'incorrect' after couple secs
-};
-
-const correctAnswer = function() {
-    let $correct = document.createElement("h2");
-    $correct.textContent = 'Correct!';
-    $answerResponseDiv.appendChild($correct);
     
-    //pause for correct message 
-    // move to next question
-};
+    };
 
-var highScores = function() {
-    hideEl();
+    const nextQuestion = function() {
+        // check index of current question
+        let currentIndex = questionCounter;
+        if(currentIndex >= questions.length) {
+            clearInterval(countdown);
+            endGame();
+        } else {
+        // pass current index into question Handler
+            questionHandler(currentIndex);
+        }
+        
+    };
 
-    highScore.textContent = "Start Over";
-    question.textContent = "High Scores";
-    highScore.addEventListener("click", function(){
-        location.reload(true);
-    });
-    
-};
-
-
-var hideEl = function() {
-    var hiddenP = document.querySelector(".questionP");
-    hiddenP.setAttribute("class", "hide");
-    startButton.setAttribute("class", "hide")
-};
-
-var timer = function() {
-    // grab timer element
-    var timeRemaining = document.querySelector(".timer").textContent;
-    timeRemaining = 75;
-    var countdown = setInterval(function() {
+    questionHandler(0);
+    let countdown = setInterval(function() {
         timeRemaining--;
         document.querySelector(".timer").textContent = timeRemaining;
-        if (timeRemaining <= 0) clearInterval(countdown)
+        if (timeRemaining <= 0) {
+            clearInterval(countdown)
+        }
     }, 1000);
-    return timeRemaining;
+
+    // wrongAnswer
+    const wrongAnswer = function() {
+        let $wrongEl = document.createElement("h2");
+        $wrongEl.textContent = 'Incorrect. Try again!';
+        $answerResponseDiv.appendChild($wrongEl);
+    
+        // stop timer
+        clearInterval(countdown);
+        // remove 10 seconds from value
+        timeRemaining -= 10;
+        $timerEl.textContent = timeRemaining;
+        // validate timeRemaining > 0
+        if(timeRemaining <= 0) {
+            $timerEl.textContent = '0';
+            endGame();
+        } 
+        // start new timer
+        else {
+            countdown = setInterval(function() {
+                timeRemaining--;
+                document.querySelector(".timer").textContent = timeRemaining;
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown)
+                }
+            }, 1000);
+        }
+        
+        // remove 'incorrect' after couple secs
+        setTimeout(function() {$wrongEl.remove()}, 2000);
+    };
+
+    // correct answer
+    const correctAnswer = function() {
+        let $correctEl = document.createElement("h2");
+        $correctEl.textContent = 'Correct!';
+        $answerResponseDiv.appendChild($correctEl);
+
+        // increase questionCounter
+        questionCounter++;
+        
+        //pause for 2 seconds correct message
+        setTimeout(function() {$correctEl.remove()}, 2000);
+
+        // for loop to delete current buttons before moving on
+        for(let i=0; i < 4; i++) {
+            let $button = document.querySelector(".btn"+i);
+            removeEl($button);
+        }
+
+        // move to next question
+        nextQuestion();
+    };
+}; // playGame() end
+
+const endGame = function() {
+    let score = timeRemaining;
+    // Dynamically adding title
+    $questionEl.textContent = "game over.";
+    let $questionSubtitle = document.createElement("p");
+    $questionSubtitle.textContent = `your final score is ${score}`;
+    $questionDiv.appendChild($questionSubtitle);
+    // form label, input, and button
+    let $inputLabel = document.createElement("label");
+    $inputLabel.setAttribute("for", "initials");
+    $inputLabel.textContent = "Enter your initials:";
+    let $nameInput = document.createElement("input");
+    $nameInput.setAttribute("type", "text");
+    $nameInput.setAttribute("name", "initials");
+    $nameInput.setAttribute("placeholder", "enter your initials");
+    let $inputButton = document.createElement("input");
+    $inputButton.setAttribute("type", "submit");
+    $inputButton.setAttribute("class", "btn");
+
+    
+    $answerChoicesDiv.appendChild($inputLabel);
+    $answerChoicesDiv.appendChild($nameInput);
+    $answerChoicesDiv.appendChild($inputButton);
+
+    console.log(saveFiles)
+    // event listeners
+    $inputButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        loadScore();
+        let initials = $nameInput.value;
+        let saveObj = {
+            initials: initials,
+            score: score
+        };
+        saveFiles.push(saveObj);
+        console.log(saveFiles);
+        saveScore();
+
+        // check saveFiles in localStorage
+        // saveFiles = JSON.parse(localStorage.getItem("highScores"));
+        
+        // console.log(saveFiles);
+        
+        saveScore();
+        // redirects to high Scores page
+        let redirect = function() {
+            document.location.href = "./high-score.html";
+        };
+        redirect();
+    });
+
 };
 
 
+$startButton.addEventListener("click", playGame);
 
-
-// const stopTimer = function(timeRemaining) {
-//     clearInterval();
-//     let score = timeRemaining;
-//     return score;
-// };
-
-// const saveScore = function(score) {
-//     let name = prompt("Congrats on making it to the end! What is your name?");
-//     let saveFile = {
-//         name: name,
-//         score: score
-//     }
-//     let savedScore = localStorage.setItem("userNameScore", JSON.stringify(saveFile))
-// };
-
-
-startButton.addEventListener("click", playGame);
-highScore.addEventListener("click", highScores);

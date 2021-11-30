@@ -1,6 +1,7 @@
 :root {
     --primary-color: #583DA4;
     --secondary-color: #DEC9F8;
+    --tertiary-color: rgba(211,211,211,0.3);
 }
 
 * {
@@ -9,22 +10,27 @@
     font-family: sans-serif;
 }
 
-p, span {
+p, span, a {
     text-align: center;
     align-self: center;
+    text-decoration: none;
 }
 
-button {
+.btn {
     width: 250px;
     height: 50px;
     border-radius: 10px;
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    margin: 4% 0;
+    margin: 4% auto;
 }
 
 .hide {
     display: none;
+}
+
+.background {
+    background-color: var(--tertiary-color);
 }
 
 /* header */
@@ -43,6 +49,9 @@ header div {
 h3.high-score {
     align-self: center;
     color: var(--primary-color);
+    font-weight: bolder;
+    text-decoration: none;
+    font-size: 18px;
 }
 
 p.timer {
@@ -60,6 +69,12 @@ main {
 h1 {
     margin: 2% auto;
     text-align: center;
+}
+
+h2 {
+    text-align: center;
+    font-style: italic;
+    font-weight: lighter;
 }
 
 h2 {
@@ -88,7 +103,27 @@ h2 {
     justify-content: center;
 }
 
+.hs {
+    width: 80%;
+    height: 400px;
+    background-color: var(--tertiary-color);
+}
+
+p.high-score {
+    background-color: var(--secondary-color);
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* answer validation div */
 .answer-response {
     margin: 2% 20%;
+}
+
+
+label {
+    text-align: center;
 }
