@@ -10,9 +10,6 @@ const $infoP = document.querySelector(".info-p");
 // start value
 let timeRemaining = 75;
 
-
-// get highscore array
-saveFiles = [];
 const questions = [
     {
         question: "which of these values is NOT falsy?",
