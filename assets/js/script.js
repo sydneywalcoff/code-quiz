@@ -10,10 +10,6 @@ const $infoP = document.querySelector(".info-p");
 // start value
 let timeRemaining = 75;
 
-
-// get highscore array
-saveFiles = [];
-console.log(saveFiles);
 const questions = [
     {
         question: "which of these values is NOT falsy?",
@@ -53,7 +49,6 @@ const saveScore = function() {
 };
 
 const loadScore = function() {
-    console.log(saveFiles);
    saveFiles = JSON.parse(localStorage.getItem("highScores"));
    if (!saveFiles) {
        saveFiles = [];
@@ -190,8 +185,6 @@ const endGame = function() {
     $answerChoicesDiv.appendChild($inputLabel);
     $answerChoicesDiv.appendChild($nameInput);
     $answerChoicesDiv.appendChild($inputButton);
-
-    console.log(saveFiles)
     // event listeners
     $inputButton.addEventListener("click", function(e) {
         e.preventDefault();
@@ -202,13 +195,6 @@ const endGame = function() {
             score: score
         };
         saveFiles.push(saveObj);
-        console.log(saveFiles);
-        saveScore();
-
-        // check saveFiles in localStorage
-        // saveFiles = JSON.parse(localStorage.getItem("highScores"));
-        
-        // console.log(saveFiles);
         
         saveScore();
         // redirects to high Scores page
