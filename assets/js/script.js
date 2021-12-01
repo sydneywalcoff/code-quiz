@@ -10,9 +10,6 @@ const $infoP = document.querySelector(".info-p");
 // start value
 let timeRemaining = 75;
 
-// get highscore array
-saveFiles = [];
-
 const questions = [
     {
         question: "which of these values is NOT falsy?",
@@ -46,7 +43,21 @@ const removeEl = function(el) {
     el.remove();
 };
 
+const saveScore = function() {    
+    // stringify
+    localStorage.setItem("highScores", JSON.stringify(saveFiles));
+};
+
+const loadScore = function() {
+   saveFiles = JSON.parse(localStorage.getItem("highScores"));
+   if (!saveFiles) {
+       saveFiles = [];
+   }
+};
+
+
 const playGame = function() {
+    loadScore();
     // hide p element and start button
     removeEl($startButton);
     removeEl($infoP);
@@ -170,28 +181,20 @@ const endGame = function() {
     $inputButton.setAttribute("type", "submit");
     $inputButton.setAttribute("class", "btn");
 
-    const saveScore = function() {
-        
-        // stringify
-        localStorage.setItem("highScores", JSON.stringify(saveFiles));
-    };
-
+    
     $answerChoicesDiv.appendChild($inputLabel);
     $answerChoicesDiv.appendChild($nameInput);
     $answerChoicesDiv.appendChild($inputButton);
-
     // event listeners
     $inputButton.addEventListener("click", function(e) {
         e.preventDefault();
-
+        loadScore();
         let initials = $nameInput.value;
         let saveObj = {
             initials: initials,
             score: score
         };
-        saveFiles = JSON.parse(localStorage.getItem("highScores"));
         saveFiles.push(saveObj);
-        console.log(saveFiles);
         
         saveScore();
         // redirects to high Scores page
@@ -202,6 +205,7 @@ const endGame = function() {
     });
 
 };
+
 
 $startButton.addEventListener("click", playGame);
 
